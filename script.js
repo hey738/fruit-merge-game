@@ -114,9 +114,9 @@ const topSensor = Bodies.rectangle(GAME_WIDTH / 2, 0, GAME_WIDTH, 2, {
 
 World.add(world, [floor, leftWall, rightWall, topSensor]);
 
-Render.run(render);
 const runner = Runner.create();
-Runner.run(runner, engine);
+
+// Don't start engine/renderer yet — wait for splash screen start button
 
 // ==================== Sound Effects ====================
 let audioCtx = null;
@@ -577,6 +577,26 @@ restartBtn.addEventListener("click", () => {
     initGame();
 });
 
-// ==================== Start ====================
-updateScoreDisplay();
-initGame();
+// ==================== Splash Screen / Start ====================
+const splashScreen = document.getElementById('splash-screen');
+const startBtn = document.getElementById('start-btn');
+const gameContainer = document.querySelector('.game-container');
+
+function startGame() {
+    // Fade out splash screen
+    splashScreen.classList.add('fade-out');
+
+    // Show game container
+    gameContainer.classList.remove('game-hidden');
+    gameContainer.classList.add('game-visible');
+
+    // Start Matter.js engine & renderer
+    Render.run(render);
+    Runner.run(runner, engine);
+
+    // Initialize the game
+    updateScoreDisplay();
+    initGame();
+}
+
+startBtn.addEventListener('click', startGame);

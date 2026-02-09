@@ -10,37 +10,38 @@ Fruit Merge Game (과일 합치기 게임) — a Suika/Watermelon-style physics 
 
 No build tools, package manager, or dependencies to install. Matter.js is loaded via CDN.
 
-- **Desktop**: open `index.html` in a browser (or serve via `python3 -m http.server 8000`)
-- **Mobile**: open `mobile.html` in a browser
+Open `index.html` in a browser, or serve locally:
+```
+python3 -m http.server 8000
+```
 
 ## Architecture
 
-Two independent versions of the game exist side-by-side:
+Single-page game with three files: `index.html`, `script.js`, `style.css`.
 
-| Version | Files | Canvas Size |
-|---------|-------|-------------|
-| Desktop | `index.html` + `script.js` + `style.css` | 450×600 |
-| Mobile  | `mobile.html` (self-contained, inline CSS/JS) | 315×420 (0.7× scale) |
+### Responsive Scaling
 
-**Mobile is a copy of the desktop logic with scaled-down dimensions and all code inlined into a single HTML file.** Changes to game logic must be applied to both `script.js` and the inline script in `mobile.html`.
+`script.js` computes a `SCALE` factor at startup based on available viewport space (base dimensions: 450×600). All game constants (fruit radii, positions, font sizes) are multiplied by `SCALE`, so the game adapts to any screen size without a separate mobile version.
 
 ### Core Components (script.js)
 
-- **Matter.js setup** (lines 1–76): Engine, renderer, runner, and static boundary bodies (floor, walls, top sensor).
-- **Fruit system** (lines 11–19): `FRUITS` array defines 7 fruit types (grape→watermelon) with radius, score, color, and emoji. Only the first 3 (grape, strawberry, tangerine) spawn as drop candidates.
-- **Input handling** (lines 152–175): Mouse/touch position tracking + drop on mouseup/touchend. 500ms cooldown between drops.
-- **Collision/merge logic** (lines 212–239): On `collisionStart`, matching fruit pairs merge into the next tier at their midpoint. Score = `fruit.score * 2`.
-- **Custom rendering** (lines 125–279): Three `afterRender` event handlers draw emoji overlays on fruit bodies, the preview fruit at top, and the LIMIT line at y=150.
-- **Game over detection** (lines 282–314): `setInterval` every 1000ms checks if any settled fruit (speed < 0.2) is above the limit line. Triggers game over after 3 cumulative seconds.
+- **Matter.js setup**: Engine, renderer, runner, and static boundary bodies (floor, walls, top sensor).
+- **Fruit system**: `FRUITS` array defines 7 fruit types (grape→watermelon) with radius, score, color, and emoji. Only the first 3 (grape, strawberry, tangerine) spawn as drop candidates.
+- **Input handling**: Mouse, touch, and keyboard (Arrow keys / WASD + Space) position tracking and drop. 500ms cooldown between drops.
+- **Collision/merge logic**: On `collisionStart`, matching fruit pairs merge into the next tier at their midpoint. Score = `fruit.score * 2`. A `removedBodies` Set prevents double-processing.
+- **Custom rendering**: Single `afterRender` handler draws emoji overlays on fruit bodies, the preview fruit + drop guideline, the LIMIT line, merge particles, and score popups.
+- **Game over detection**: `setInterval` every 1000ms checks if any settled fruit (speed < 0.2) is above the limit line. Triggers game over after 3 cumulative seconds.
+- **Sound effects**: Web Audio API oscillator-based sounds (drop, merge, game over). No audio files.
 
-### Key Constants (hardcoded)
+### Key Constants
 
-- Canvas: 450×600 (desktop), 315×420 (mobile)
-- Drop height: y=50
-- Limit line: y=150
+- Base canvas: 450×600 (scaled by `SCALE`)
+- Drop height: y=50 × SCALE
+- Limit line: y=150 × SCALE
 - Game over threshold: 3000ms above limit
 - Drop cooldown: 500ms
 - Physics restitution: 0.2
+- Best score persisted in `localStorage` key `fruitMergeBest`
 
 ## UI Language
 
