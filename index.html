@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>과일 합치기 게임</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.19.0/matter.min.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="game-container">
+        <header>
+            <div class="score-board">
+                <span>점수: <span id="score">0</span></span>
+            </div>
+            <div class="next-fruit">
+                <span>다음:</span>
+                <div id="next-fruit-display"></div>
+            </div>
+        </header>
+
+        <div id="game-area"></div>
+
+        <div class="fruit-legend">
+            <h3>과일 진화 순서</h3>
+            <div class="legend-items">
+                <!-- Items will be populated by CSS/HTML directly for simplicity -->
+                <div class="legend-item"><span>🍇</span><span class="arrow">→</span></div>
+                <div class="legend-item"><span>🍓</span><span class="arrow">→</span></div>
+                <div class="legend-item"><span>🍊</span><span class="arrow">→</span></div>
+                <div class="legend-item"><span>🍌</span><span class="arrow">→</span></div>
+                <div class="legend-item"><span>🍑</span><span class="arrow">→</span></div>
+                <div class="legend-item"><span>🍈</span><span class="arrow">→</span></div>
+                <div class="legend-item"><span>🍉</span></div>
+            </div>
+        </div>
+
+        <div id="game-over" class="hidden">
+            <h2>게임 오버!</h2>
+            <p>최종 점수: <span id="final-score">0</span></p>
+            <button id="restart-btn">다시 시작</button>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+
+</html>
