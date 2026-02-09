@@ -44,13 +44,14 @@
         .game-container {
             position: relative;
             width: 100%;
-            max-width: 480px;
-            /* Slightly wider */
+            max-width: 340px;
+            /* Reduced from 480px for mobile */
             height: 95vh;
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding: 0 20px;
+            padding: 0 10px;
+            /* Reduced padding */
         }
 
         /* Header / HUD */
@@ -59,37 +60,39 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 15px 25px;
+            padding: 10px 15px;
             background-color: var(--card-bg);
             border-radius: 20px;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             box-shadow: var(--shadow-sharp);
             z-index: 10;
         }
 
         .score-board {
-            font-size: 1.1rem;
+            font-size: 1rem;
+            /* Slightly smaller */
             font-weight: 700;
             color: var(--text-primary);
         }
 
         .score-board span#score {
             color: var(--accent-color);
-            font-size: 1.4rem;
+            font-size: 1.2rem;
             margin-left: 5px;
         }
 
         .next-fruit {
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 10px;
             font-weight: 700;
             color: var(--text-secondary);
+            font-size: 0.9rem;
         }
 
         #next-fruit-display {
-            width: 42px;
-            height: 42px;
+            width: 36px;
+            height: 36px;
             background-color: #f1f2f6;
             border-radius: 50%;
             display: flex;
@@ -120,9 +123,9 @@
 
         /* Legend */
         .fruit-legend {
-            margin-top: 20px;
+            margin-top: 15px;
             background-color: var(--card-bg);
-            padding: 15px 20px;
+            padding: 10px 15px;
             border-radius: 20px;
             box-shadow: var(--shadow-sharp);
             width: 100%;
@@ -130,9 +133,9 @@
         }
 
         .fruit-legend h3 {
-            margin-bottom: 12px;
+            margin-bottom: 8px;
             color: var(--text-secondary);
-            font-size: 0.9rem;
+            font-size: 0.8rem;
             text-transform: uppercase;
             letter-spacing: 1px;
         }
@@ -143,7 +146,7 @@
             align-items: center;
             flex-wrap: nowrap;
             /* Force single line if possible, or scroll */
-            gap: 8px;
+            gap: 5px;
             overflow-x: auto;
             /* Allow scroll on very small screens */
             padding-bottom: 5px;
@@ -152,20 +155,22 @@
         .legend-item {
             display: flex;
             align-items: center;
-            font-size: 1.3rem;
+            font-size: 1.1rem;
+            /* Smaller legend */
             opacity: 0.8;
+            flex-shrink: 0;
         }
 
         .legend-item:last-child {
             opacity: 1;
-            font-size: 1.5rem;
+            font-size: 1.3rem;
             /* Emphasize watermelon */
         }
 
         .legend-item .arrow {
-            font-size: 0.8rem;
+            font-size: 0.7rem;
             color: #dfe6e9;
-            margin: 0 4px;
+            margin: 0 3px;
         }
 
         /* Game Over Modal */
@@ -179,13 +184,13 @@
             left: 50%;
             transform: translate(-50%, -50%);
             background-color: var(--card-bg);
-            padding: 50px 40px;
+            padding: 40px 30px;
             border-radius: 30px;
             text-align: center;
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
             z-index: 100;
             width: 85%;
-            max-width: 320px;
+            max-width: 280px;
             animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
@@ -202,27 +207,27 @@
         }
 
         #game-over h2 {
-            font-size: 2rem;
+            font-size: 1.8rem;
             color: var(--text-primary);
             margin-bottom: 10px;
         }
 
         #game-over p {
-            font-size: 1.2rem;
+            font-size: 1rem;
             color: var(--text-secondary);
-            margin-bottom: 30px;
+            margin-bottom: 25px;
         }
 
         #final-score {
             color: var(--accent-color);
             font-weight: 700;
-            font-size: 1.5rem;
+            font-size: 1.3rem;
         }
 
         #restart-btn {
             width: 100%;
-            padding: 15px;
-            font-size: 1.1rem;
+            padding: 12px;
+            font-size: 1rem;
             font-weight: 700;
             background-color: var(--accent-color);
             border: none;
@@ -275,6 +280,9 @@
         </div>
     </div>
     <script>
+        // MOBILE SCALE FACTOR
+        const SCALE = 0.7; // 70% of the original size
+
         const Engine = Matter.Engine,
             Render = Matter.Render,
             Runner = Matter.Runner,
@@ -283,15 +291,23 @@
             Events = Matter.Events,
             Composite = Matter.Composite;
 
-        // Fruit configuration
+        // Original Dimensions
+        const ORIGINAL_WIDTH = 450;
+        const ORIGINAL_HEIGHT = 600;
+
+        // Scaled Dimensions
+        const GAME_WIDTH = ORIGINAL_WIDTH * SCALE; // 315
+        const GAME_HEIGHT = ORIGINAL_HEIGHT * SCALE; // 420
+
+        // Fruit configuration (Radii scaled)
         const FRUITS = [
-            { name: "grape", radius: 15, score: 10, color: "#8e44ad", emoji: "🍇" },
-            { name: "strawberry", radius: 25, score: 20, color: "#e74c3c", emoji: "🍓" },
-            { name: "tangerine", radius: 35, score: 30, color: "#e67e22", emoji: "🍊" },
-            { name: "banana", radius: 45, score: 40, color: "#f1c40f", emoji: "🍌" },
-            { name: "peach", radius: 60, score: 50, color: "#ff9ff3", emoji: "🍑" },
-            { name: "melon", radius: 80, score: 60, color: "#2ecc71", emoji: "🍈" },
-            { name: "watermelon", radius: 100, score: 70, color: "#27ae60", emoji: "🍉" }
+            { name: "grape", radius: 15 * SCALE, score: 10, color: "#8e44ad", emoji: "🍇" },
+            { name: "strawberry", radius: 25 * SCALE, score: 20, color: "#e74c3c", emoji: "🍓" },
+            { name: "tangerine", radius: 35 * SCALE, score: 30, color: "#e67e22", emoji: "🍊" },
+            { name: "banana", radius: 45 * SCALE, score: 40, color: "#f1c40f", emoji: "🍌" },
+            { name: "peach", radius: 60 * SCALE, score: 50, color: "#ff9ff3", emoji: "🍑" },
+            { name: "melon", radius: 80 * SCALE, score: 60, color: "#2ecc71", emoji: "🍈" },
+            { name: "watermelon", radius: 100 * SCALE, score: 70, color: "#27ae60", emoji: "🍉" }
         ];
 
         let currentFruit = null;
@@ -316,8 +332,8 @@
             element: gameArea,
             engine: engine,
             options: {
-                width: 450,
-                height: 600,
+                width: GAME_WIDTH,
+                height: GAME_HEIGHT,
                 wireframes: false,
                 background: 'transparent',
                 pixelRatio: window.devicePixelRatio
@@ -325,19 +341,24 @@
         });
 
         // Boundary Walls
-        const floor = Bodies.rectangle(225, 610, 450, 20, {
+        const wallThickness = 20;
+        // Floor centered at (width/2, height + thickness/2)
+        const floor = Bodies.rectangle(GAME_WIDTH / 2, GAME_HEIGHT + wallThickness / 2, GAME_WIDTH, wallThickness, {
             isStatic: true,
             render: { visible: false }
         });
-        const leftWall = Bodies.rectangle(-10, 300, 20, 600, {
+        // Left Wall centered at (0 - thickness/2, height/2) - Actually we want it slightly outside
+        const leftWall = Bodies.rectangle(0 - wallThickness / 2, GAME_HEIGHT / 2, wallThickness, GAME_HEIGHT, {
             isStatic: true,
             render: { visible: false }
         });
-        const rightWall = Bodies.rectangle(460, 300, 20, 600, {
+        // Right Wall centered at (width + thickness/2, height/2)
+        const rightWall = Bodies.rectangle(GAME_WIDTH + wallThickness / 2, GAME_HEIGHT / 2, wallThickness, GAME_HEIGHT, {
             isStatic: true,
             render: { visible: false }
         });
-        const topSensor = Bodies.rectangle(225, 0, 450, 2, {
+        // Top Sensor
+        const topSensor = Bodies.rectangle(GAME_WIDTH / 2, 0, GAME_WIDTH, 2, {
             isStatic: true,
             isSensor: true,
             render: { visible: false },
@@ -374,7 +395,7 @@
 
             // Update next fruit display
             const nextFruit = FRUITS[nextFruitIndex];
-            nextFruitDisplay.innerHTML = `<span style="font-size: 24px;">${nextFruit.emoji}</span>`;
+            nextFruitDisplay.innerHTML = `<span style="font-size: 20px;">${nextFruit.emoji}</span>`;
         }
 
         function createFruit(x, y, index, isStatic = false) {
@@ -394,7 +415,7 @@
             const context = render.context;
             const bodies = Composite.allBodies(engine.world);
 
-            context.font = "30px Arial";
+            context.font = "24px Arial"; // Scaled down font base
             context.textAlign = "center";
             context.textBaseline = "middle";
 
@@ -408,7 +429,7 @@
                     context.translate(body.position.x, body.position.y);
                     context.rotate(body.angle);
                     // Scale font size based on radius
-                    const fontSize = fruit.radius * 1.2;
+                    const fontSize = fruit.radius * 1.3;
                     context.font = `${fontSize}px Arial`;
                     context.fillText(fruit.emoji, 0, 0);
                     context.restore();
@@ -417,12 +438,14 @@
         });
 
         // Input Handling
-        let currentFruitX = 225; // Start center
+        let currentFruitX = GAME_WIDTH / 2; // Start center
 
         // Mouse Move / Touch Move to position the fruit
         gameArea.addEventListener("mousemove", (e) => {
             if (isGameOver || !canDrop) return;
             const rect = gameArea.getBoundingClientRect();
+            // Need to map the visual coordinate to the canvas logical coordinate if they differ
+            // But here canvas usually fits 100% of game-area, so clientX is fine relative to rect
             updateCurrentFruitPosition(e.clientX - rect.left);
         });
 
@@ -438,15 +461,17 @@
 
         function updateCurrentFruitPosition(x) {
             const radius = FRUITS[nextFruitIndex].radius;
-            // Clamp
-            currentFruitX = Math.max(radius + 10, Math.min(x, 450 - radius - 10));
+            // Clamp within scaled game width
+            currentFruitX = Math.max(radius + 5, Math.min(x, GAME_WIDTH - radius - 5));
         }
 
         function dropFruit() {
             if (isGameOver || !canDrop) return;
 
             canDrop = false;
-            const body = createFruit(currentFruitX, 50, nextFruitIndex);
+            // Drop from a scaled height, e.g., 50 * SCALE = 35
+            const dropY = 50 * SCALE;
+            const body = createFruit(currentFruitX, dropY, nextFruitIndex);
             World.add(world, body);
 
             setTimeout(() => {
@@ -462,17 +487,19 @@
             // Draw the "Preview" fruit at top if canDrop is true
             if (canDrop && !isGameOver) {
                 const fruit = FRUITS[nextFruitIndex];
+                const dropY = 50 * SCALE;
+
                 context.globalAlpha = 0.5; // Transparent preview
                 context.fillStyle = fruit.color;
                 context.beginPath();
-                context.arc(currentFruitX, 50, fruit.radius, 0, 2 * Math.PI);
+                context.arc(currentFruitX, dropY, fruit.radius, 0, 2 * Math.PI);
                 context.fill();
 
                 context.globalAlpha = 1.0;
-                context.font = `${fruit.radius * 1.2}px Arial`;
+                context.font = `${fruit.radius * 1.3}px Arial`;
                 context.textAlign = "center";
                 context.textBaseline = "middle";
-                context.fillText(fruit.emoji, currentFruitX, 50);
+                context.fillText(fruit.emoji, currentFruitX, dropY);
             }
         });
 
@@ -509,9 +536,11 @@
         // Draw Limit Line
         Events.on(render, 'afterRender', function () {
             const context = render.context;
+            const limitY = 150 * SCALE; // Scaled limit line
+
             context.beginPath();
-            context.moveTo(0, 150);
-            context.lineTo(450, 150);
+            context.moveTo(0, limitY);
+            context.lineTo(GAME_WIDTH, limitY);
             context.strokeStyle = "rgba(255, 118, 117, 0.5)"; // Soft red
             context.lineWidth = 4;
             context.setLineDash([10, 10]);
@@ -521,7 +550,7 @@
             context.font = "12px 'Noto Sans KR'";
             context.fillStyle = "rgba(255, 118, 117, 0.8)";
             context.textAlign = "right";
-            context.fillText("LIMIT", 440, 145);
+            context.fillText("LIMIT", GAME_WIDTH - 10, limitY - 5);
 
             context.setLineDash([]);
             context.closePath();
@@ -533,11 +562,13 @@
 
             const bodies = Composite.allBodies(world);
             let danger = false;
+            const limitY = 150 * SCALE;
 
             for (const body of bodies) {
                 if (body.label.startsWith('fruit_') && body.speed < 0.2) {
                     if (body.label.startsWith('fruit_')) {
-                        if (body.position.y - body.circleRadius < 150) {
+                        // Check top edge of fruit vs limit line
+                        if (body.position.y - body.circleRadius < limitY) {
                             danger = true;
                         }
                     }
