@@ -3,21 +3,31 @@ const BASE_WIDTH = 450;
 const BASE_HEIGHT = 600;
 
 function calcScale() {
-    const gameArea = document.getElementById('game-area');
+    const container = document.querySelector('.game-container');
     const header = document.querySelector('header');
     const legend = document.querySelector('.fruit-legend');
     const headerH = header ? header.offsetHeight + 20 : 90;
     const legendH = legend ? legend.offsetHeight + 20 : 80;
-    const availW = gameArea ? gameArea.offsetWidth : BASE_WIDTH;
     const availH = window.innerHeight * 0.95 - headerH - legendH - 20;
-    const scaleW = availW / BASE_WIDTH;
     const scaleH = availH / BASE_HEIGHT;
-    return Math.min(scaleW, scaleH, 1);
+    // Let height determine scale, then constrain width to fit
+    // On small screens width limits, on large screens height limits
+    const maxW = container ? container.offsetWidth - 4 : BASE_WIDTH;
+    const scaleW = maxW / BASE_WIDTH;
+    return Math.min(scaleW, scaleH);
 }
 
 const SCALE = calcScale();
 const GAME_WIDTH = Math.round(BASE_WIDTH * SCALE);
 const GAME_HEIGHT = Math.round(BASE_HEIGHT * SCALE);
+
+// Dynamically adjust container width to fit the scaled game
+(function adjustContainer() {
+    const container = document.querySelector('.game-container');
+    if (container && GAME_WIDTH > 440) {
+        container.style.maxWidth = (GAME_WIDTH + 44) + 'px';
+    }
+})();
 
 // ==================== Matter.js Setup ====================
 const Engine = Matter.Engine,
