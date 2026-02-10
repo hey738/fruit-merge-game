@@ -9,6 +9,8 @@
     --border-radius: 24px;
     --shadow-soft: 0 10px 40px rgba(0, 0, 0, 0.08);
     --shadow-sharp: 0 4px 12px rgba(0, 0, 0, 0.1);
+    --container-max-w: 100%;
+    --container-padding: 0 10px;
 }
 
 * {
@@ -334,7 +336,7 @@ body {
     top: 5%;
     left: 50%;
     transform: translateX(-50%);
-    font-size: 50px;
+    font-size: clamp(36px, 8vw, 50px);
     animation: crownBounce 2s ease-in-out infinite;
     filter: drop-shadow(0 0 15px rgba(255, 200, 50, 0.6));
     z-index: 11;
@@ -366,7 +368,7 @@ body {
 }
 .arch-text {
     font-family: 'Jua', 'Gamja Flower', cursive;
-    font-size: 52px;
+    font-size: clamp(36px, 8vw, 52px);
     fill: url(#textGradient);
     stroke: #fff;
     stroke-width: 3;
@@ -386,7 +388,7 @@ body {
 }
 .subtitle span {
     font-family: 'Gamja Flower', cursive;
-    font-size: 28px;
+    font-size: clamp(14px, 4vw, 28px);
     color: #ff6699;
     text-shadow: 0 2px 8px rgba(255,100,150,0.4), 0 0 20px rgba(255,200,220,0.3);
     letter-spacing: 4px;
@@ -441,9 +443,10 @@ body {
     left: 50%;
     transform: translateX(-50%);
     z-index: 20;
-    padding: 16px 60px;
+    padding: clamp(10px, 2vw, 16px) clamp(28px, 8vw, 60px);
     font-family: 'Jua', cursive;
-    font-size: 26px;
+    font-size: clamp(16px, 4vw, 26px);
+    min-height: 44px;
     white-space: nowrap;
     color: #fff;
     background: linear-gradient(135deg, #ff88bb, #ff66aa, #ee55aa);
@@ -455,10 +458,6 @@ body {
     transition: all 0.3s ease;
     outline: none;
 }
-.start-btn:hover {
-    transform: translateX(-50%) scale(1.08);
-    box-shadow: 0 8px 30px rgba(255,100,150,0.7), inset 0 2px 4px rgba(255,255,255,0.3);
-}
 @keyframes btnPulse {
     0%, 100% { box-shadow: 0 6px 20px rgba(255,100,150,0.5), inset 0 2px 4px rgba(255,255,255,0.3); }
     50% { box-shadow: 0 8px 30px rgba(255,100,150,0.8), inset 0 2px 4px rgba(255,255,255,0.3), 0 0 40px rgba(255,150,200,0.3); }
@@ -469,14 +468,14 @@ body {
     position: relative;
     z-index: 10;
     width: 100%;
-    max-width: 480px;
+    max-width: var(--container-max-w);
     max-height: 95vh;
     max-height: 95dvh;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 0 20px;
+    padding: var(--container-padding);
 }
 
 /* Header / HUD */
@@ -485,17 +484,17 @@ header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 12px 20px;
+    padding: clamp(0.5rem, 1.5vw, 0.75rem) clamp(0.75rem, 2.5vw, 1.25rem);
     background-color: rgba(255, 255, 255, 0.85);
     border-radius: 20px;
-    margin-bottom: 15px;
+    margin-bottom: clamp(0.5rem, 1.5vw, 0.9375rem);
     box-shadow: var(--shadow-sharp);
     z-index: 10;
     flex-shrink: 0;
 }
 
 .score-board {
-    font-size: 1rem;
+    font-size: clamp(0.85rem, 2vw, 1rem);
     font-weight: 700;
     color: var(--text-primary);
     display: flex;
@@ -511,7 +510,7 @@ header {
 
 .score-board span#score {
     color: var(--accent-color);
-    font-size: 1.3rem;
+    font-size: clamp(1.05rem, 2.5vw, 1.3rem);
     margin-left: 4px;
 }
 
@@ -530,14 +529,15 @@ header {
 .next-fruit {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: clamp(0.5rem, 1.5vw, 0.625rem);
     font-weight: 700;
+    font-size: clamp(0.8rem, 2vw, 1rem);
     color: var(--text-secondary);
 }
 
 #next-fruit-display {
-    width: 40px;
-    height: 40px;
+    width: clamp(34px, 8vw, 40px);
+    height: clamp(34px, 8vw, 40px);
     background-color: rgba(241, 242, 246, 0.9);
     border-radius: 50%;
     display: flex;
@@ -581,9 +581,9 @@ canvas {
 
 /* Legend */
 .fruit-legend {
-    margin-top: 15px;
+    margin-top: clamp(0.5rem, 1.5vw, 0.9375rem);
     background-color: rgba(255, 255, 255, 0.85);
-    padding: 12px 18px;
+    padding: clamp(0.5rem, 1.5vw, 0.75rem) clamp(0.75rem, 2vw, 1.125rem);
     border-radius: 20px;
     box-shadow: var(--shadow-sharp);
     width: 100%;
@@ -594,7 +594,7 @@ canvas {
 .fruit-legend h3 {
     margin-bottom: 10px;
     color: var(--text-secondary);
-    font-size: 0.8rem;
+    font-size: clamp(0.65rem, 1.5vw, 0.8rem);
     text-transform: uppercase;
     letter-spacing: 1px;
 }
@@ -612,14 +612,14 @@ canvas {
 .legend-item {
     display: flex;
     align-items: center;
-    font-size: 1.2rem;
+    font-size: clamp(0.95rem, 2.5vw, 1.2rem);
     opacity: 0.8;
     flex-shrink: 0;
 }
 
 .legend-item:last-child {
     opacity: 1;
-    font-size: 1.4rem;
+    font-size: clamp(1.1rem, 3vw, 1.4rem);
 }
 
 .legend-item .arrow {
@@ -655,13 +655,13 @@ canvas {
     left: 50%;
     transform: translate(-50%, -50%);
     background-color: rgba(255, 255, 255, 0.95);
-    padding: 45px 35px;
+    padding: clamp(1.5rem, 5vw, 2.8125rem) clamp(1.25rem, 4vw, 2.1875rem);
     border-radius: 30px;
     text-align: center;
     box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
     z-index: 100;
     width: 85%;
-    max-width: 300px;
+    max-width: clamp(260px, 50vw, 300px);
     animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
@@ -677,7 +677,7 @@ canvas {
 }
 
 #game-over h2 {
-    font-size: 1.8rem;
+    font-size: clamp(1.4rem, 4vw, 1.8rem);
     color: var(--text-primary);
     margin-bottom: 8px;
 }
@@ -709,6 +709,7 @@ canvas {
     color: var(--text-secondary);
     margin-top: 10px;
     opacity: 0.7;
+    display: none;
 }
 
 #restart-btn {
@@ -716,6 +717,7 @@ canvas {
     padding: 14px;
     font-size: 1.05rem;
     font-weight: 700;
+    min-height: 44px;
     background-color: var(--accent-color);
     border: none;
     border-radius: 12px;
@@ -725,96 +727,49 @@ canvas {
     transition: transform 0.1s, box-shadow 0.1s;
 }
 
-#restart-btn:hover {
-    transform: scale(1.02);
-    box-shadow: 0 6px 20px rgba(255, 118, 117, 0.5);
-}
-
 #restart-btn:active {
     transform: scale(0.98);
     box-shadow: 0 2px 10px rgba(255, 118, 117, 0.3);
 }
 
-/* ==================== Responsive ==================== */
-@media (max-width: 480px) {
-    .game-container {
-        padding: 0 10px;
-        max-width: 340px;
+/* ==================== Hover-capable devices only ==================== */
+@media (hover: hover) {
+    .start-btn:hover {
+        transform: translateX(-50%) scale(1.08);
+        box-shadow: 0 8px 30px rgba(255,100,150,0.7), inset 0 2px 4px rgba(255,255,255,0.3);
     }
 
-    header {
-        padding: 10px 15px;
-        margin-bottom: 10px;
-    }
-
-    .score-board {
-        font-size: 0.9rem;
-    }
-
-    .score-board span#score {
-        font-size: 1.1rem;
-    }
-
-    .next-fruit {
-        font-size: 0.85rem;
-        gap: 8px;
-    }
-
-    #next-fruit-display {
-        width: 34px;
-        height: 34px;
-    }
-
-    .fruit-legend {
-        margin-top: 10px;
-        padding: 8px 12px;
-    }
-
-    .fruit-legend h3 {
-        font-size: 0.7rem;
-        margin-bottom: 6px;
-    }
-
-    .legend-item {
-        font-size: 1rem;
-    }
-
-    .legend-item:last-child {
-        font-size: 1.2rem;
-    }
-
-    #game-over {
-        padding: 35px 25px;
-        max-width: 260px;
-    }
-
-    #game-over h2 {
-        font-size: 1.5rem;
+    #restart-btn:hover {
+        transform: scale(1.02);
+        box-shadow: 0 6px 20px rgba(255, 118, 117, 0.5);
     }
 
     .keyboard-hint {
-        display: none;
-    }
-
-    .arch-text {
-        font-size: 40px;
-    }
-
-    .subtitle span {
-        font-size: 14px;
-        letter-spacing: 1px;
-    }
-
-    .start-btn {
-        font-size: 16px;
-        padding: 12px 32px;
-    }
-
-    .crown {
-        font-size: 40px;
+        display: block;
     }
 }
 
+/* ==================== Responsive: Tablet (768px+) ==================== */
+@media (min-width: 768px) {
+    :root {
+        --container-max-w: 520px;
+        --container-padding: 0 16px;
+    }
+
+    .legend-items {
+        gap: 8px;
+    }
+}
+
+/* ==================== Responsive: Desktop (1024px+) ==================== */
+@media (min-width: 1024px) {
+    :root {
+        --container-max-w: 540px;
+        --container-padding: 0 20px;
+    }
+}
+
+/* ==================== Short viewport ==================== */
 @media (max-height: 700px) {
     .game-container {
         height: 98vh;
@@ -822,16 +777,16 @@ canvas {
     }
 
     header {
-        padding: 8px 15px;
-        margin-bottom: 8px;
+        padding: 0.5rem 0.9375rem;
+        margin-bottom: 0.5rem;
     }
 
     .fruit-legend {
-        margin-top: 8px;
-        padding: 6px 10px;
+        margin-top: 0.5rem;
+        padding: 0.375rem 0.625rem;
     }
 
     .fruit-legend h3 {
-        margin-bottom: 4px;
+        margin-bottom: 0.25rem;
     }
 }

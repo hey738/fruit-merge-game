@@ -29,6 +29,29 @@ const GAME_HEIGHT = Math.round(BASE_HEIGHT * SCALE);
     }
 })();
 
+// ==================== Resize / Orientation Detection ====================
+(function setupResizeHandler() {
+    let initialWidth = window.innerWidth;
+    let initialHeight = window.innerHeight;
+    function handleResize() {
+        if (Math.abs(window.innerWidth - initialWidth) > 50 ||
+            Math.abs(window.innerHeight - initialHeight) > 100) {
+            if (document.getElementById('resize-banner')) return;
+            const banner = document.createElement('div');
+            banner.id = 'resize-banner';
+            banner.textContent = '화면 크기가 변경되었습니다. 탭하여 새로고침!';
+            banner.style.cssText = 'position:fixed;top:0;left:0;right:0;z-index:9999;' +
+                'background:linear-gradient(135deg,#ff88bb,#ff66aa);color:#fff;' +
+                'text-align:center;padding:12px 16px;font-size:14px;font-weight:700;' +
+                'cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,0.15);';
+            banner.addEventListener('click', function () { location.reload(); });
+            document.body.appendChild(banner);
+        }
+    }
+    window.addEventListener('resize', handleResize);
+    window.addEventListener('orientationchange', function () { setTimeout(handleResize, 300); });
+})();
+
 // ==================== Matter.js Setup ====================
 const Engine = Matter.Engine,
     Render = Matter.Render,
