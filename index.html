@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>또이또미 과일 가게</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🍉</text></svg>">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Gaegu:wght@700&family=Gamja+Flower&family=Jua&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.19.0/matter.min.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <!-- Princess Background Scene -->
+    <div id="bg-scene">
+        <div class="rainbow"></div>
+        <div class="cloud cloud-1"></div>
+        <div class="cloud cloud-2"></div>
+        <div class="cloud cloud-3"></div>
+        <div class="cloud cloud-4"></div>
+        <div class="sparkle s1"></div>
+        <div class="sparkle s2"></div>
+        <div class="sparkle s3"></div>
+        <div class="sparkle s4"></div>
+        <div class="sparkle s5"></div>
+        <div class="sparkle s6"></div>
+        <div class="sparkle s7"></div>
+        <div class="sparkle s8"></div>
+        <div class="sparkle s9"></div>
+        <div class="sparkle s10"></div>
+        <div class="heart h1">♥</div>
+        <div class="heart h2">♥</div>
+        <div class="heart h3">♥</div>
+        <div class="heart h4">♥</div>
+        <div class="heart h5">♥</div>
+        <div class="heart h6">♥</div>
+        <div class="heart h7">♥</div>
+        <div class="butterfly b1">🦋</div>
+        <div class="butterfly b2">🦋</div>
+        <div class="butterfly b3">🦋</div>
+        <div class="tiny-star" style="top:12%;left:22%;animation-delay:0.2s;"></div>
+        <div class="tiny-star" style="top:18%;left:78%;animation-delay:0.8s;"></div>
+        <div class="tiny-star" style="top:28%;left:45%;animation-delay:1.4s;"></div>
+        <div class="tiny-star" style="top:8%;left:60%;animation-delay:0.5s;"></div>
+        <div class="tiny-star" style="top:22%;left:88%;animation-delay:1.0s;"></div>
+        <div class="tiny-star" style="top:32%;left:5%;animation-delay:1.6s;"></div>
+        <div class="tiny-star" style="top:16%;left:92%;animation-delay:0.3s;"></div>
+        <div class="castle">
+            <div class="tower tower-left">
+                <div class="tower-roof"></div>
+                <div class="tower-flag"></div>
+            </div>
+            <div class="tower tower-right">
+                <div class="tower-roof"></div>
+                <div class="tower-flag"></div>
+            </div>
+            <div class="castle-body">
+                <div class="castle-door"></div>
+            </div>
+        </div>
+        <div class="ground">
+            <div class="flower f1">🌸</div>
+            <div class="flower f2">🌷</div>
+            <div class="flower f3">🌼</div>
+            <div class="flower f4">🌸</div>
+            <div class="flower f5">🌷</div>
+            <div class="flower f6">🌼</div>
+            <div class="flower f7">🌸</div>
+            <div class="flower f8">🌷</div>
+            <div class="flower f9">🌼</div>
+            <div class="flower f10">🌸</div>
+        </div>
+    </div>
+
+    <!-- Splash Screen Overlay -->
+    <div id="splash-screen">
+        <div class="crown">👑</div>
+        <div class="arch-text-container">
+            <svg width="600" height="200" viewBox="0 0 600 200">
+                <defs>
+                    <linearGradient id="textGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" style="stop-color:#ff6699" />
+                        <stop offset="25%" style="stop-color:#ff88bb" />
+                        <stop offset="50%" style="stop-color:#cc66ff" />
+                        <stop offset="75%" style="stop-color:#ff88bb" />
+                        <stop offset="100%" style="stop-color:#ff6699" />
+                    </linearGradient>
+                    <path id="archPath" d="M 30,180 Q 300,10 570,180" fill="none" />
+                </defs>
+                <text class="arch-text">
+                    <textPath href="#archPath" startOffset="50%" text-anchor="middle">
+                        또이또미 과일 가게
+                    </textPath>
+                </text>
+            </svg>
+        </div>
+        <div class="subtitle">
+            <span>~ ♡ 윤대표님이 만들었어요 ♡ ~</span>
+        </div>
+        <div class="ribbon">
+            <div class="ribbon-dot"></div>
+            <div class="ribbon-dot"></div>
+            <div class="ribbon-dot"></div>
+            <div class="ribbon-dot"></div>
+            <div class="ribbon-dot"></div>
+            <div class="ribbon-dot"></div>
+            <div class="ribbon-dot"></div>
+        </div>
+        <button id="start-btn" class="start-btn">✨ 시작하기 ✨</button>
+    </div>
+
+    <!-- Game Container (hidden until start) -->
+    <div class="game-container game-hidden">
+        <header>
+            <div class="score-board">
+                <div class="current-score">
+                    <span>점수: <span id="score">0</span></span>
+                </div>
+                <div class="best">최고: <span id="best-score">0</span></div>
+            </div>
+            <div class="next-fruit">
+                <span>다음:</span>
+                <div id="next-fruit-display" role="img" aria-label="다음 과일"></div>
+            </div>
+        </header>
+
+        <div id="game-area" role="application" aria-label="과일 합치기 게임 영역"></div>
+
+        <div class="fruit-legend">
+            <h3>과일 진화 순서</h3>
+            <div class="legend-items">
+                <div class="legend-item"><span>🍇</span><span class="arrow">→</span></div>
+                <div class="legend-item"><span>🍓</span><span class="arrow">→</span></div>
+                <div class="legend-item"><span>🍊</span><span class="arrow">→</span></div>
+                <div class="legend-item"><span>🍌</span><span class="arrow">→</span></div>
+                <div class="legend-item"><span>🍑</span><span class="arrow">→</span></div>
+                <div class="legend-item"><span>🍈</span><span class="arrow">→</span></div>
+                <div class="legend-item"><span>🍉</span></div>
+            </div>
+        </div>
+
+        <div id="game-over" class="hidden">
+            <h2>게임 오버!</h2>
+            <p>최종 점수: <span id="final-score">0</span></p>
+            <p>최고 기록: <span id="final-best">0</span></p>
+            <button id="restart-btn">다시 시작</button>
+            <div class="keyboard-hint">Enter 또는 Space로 재시작</div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+
+</html>
